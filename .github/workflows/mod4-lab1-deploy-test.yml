@@ -18,7 +18,7 @@ permissions:
 jobs:
   PushImagetoACR:
     name: Push Sample Image to ACR and AKS
-    environment: test
+    environment: firstenv
     permissions:
       contents: read
       id-token: write
