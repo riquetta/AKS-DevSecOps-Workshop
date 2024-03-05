@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quick-start
+  namespace: default
+  labels:
+    azure.workload.identity/use: "true"
+spec:
+  serviceAccountName: workload-identity-sa
+  containers:
+    - image: ghcr.io/azure/azure-workload-identity/msal-net
+      name: oidc
+      env:
+      - name: KEYVAULT_URL
+        value: https://akv-ixiztwqn4yr7s.vault.azure.net/
+      - name: SECRET_NAME
+        value: mysecret
+      - name: USER_ASSIGNED_CLIENT_ID
+        value: 0a9ac287-04b1-4f82-bf27-1c60019700aa
+      - name: AZURE_CLIENT_ID
+        value: 0a9ac287-04b1-4f82-bf27-1c60019700aa 
