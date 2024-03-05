@@ -1,3 +1,6 @@
 {
-    "snyk.trustedFolders": []
+    "snyk.trustedFolders": [],
+    "snyk.features.preview": {
+        
+    }
 }
