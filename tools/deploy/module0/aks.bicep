@@ -86,4 +86,90 @@ resource akv 'Microsoft.KeyVault/vaults@2022-07-01' = {
   }
 }
 
+
+// Parameters...
+
+@description('Log Analytics Workspace name')
+param workspaceName string
+
+// Log Analytics Workspace Definition 
+resource workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+  name: workspaceName
+  location: location
+}
+
+// Cluster Definition...
+// Inside Cluster Definition; add the following to properties
+
+addonProfiles: {
+    omsAgent: {
+        enabled: true
+        config: {
+            logAnalyticsWorkspaceResourceID: workspace.id
+        }
+    }
+
+    // ...
+}
+
+resource diag01 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+    name: 'diag01'
+    scope: aks
+    properties: {
+        logs: [{
+            category: 'cluster-autoscaler'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        }, {
+            category: 'guard'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        }, {
+            category: 'kube-apiserver'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        },
+        {
+            category: 'kube-audit'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            } 
+        }, {
+            category: 'kube-audit-admin'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        }, {
+            category: 'kube-controller-manager'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        }, {
+            category: 'kube-scheduler'
+            enabled: true
+            retentionPolicy: {
+                days: 0
+                enabled: false
+            }
+        }]
+        workspaceId: workspace.id
+    }
+}
+
+
 output controlPlaneFQDN string = aks.properties.fqdn
