@@ -56,6 +56,13 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
     aadProfile: {
       managed: true
       enableAzureRBAC: true
+      //additional
+      omsAgent: {
+        enabled: true
+        config: {
+            logAnalyticsWorkspaceResourceID: workspace.id
+        }
+      }
     }    
   }
 }
@@ -99,18 +106,6 @@ resource workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
 }
 
 // Cluster Definition...
-// Inside Cluster Definition; add the following to properties
-
-addonProfiles: {
-    omsAgent: {
-        enabled: true
-        config: {
-            logAnalyticsWorkspaceResourceID: workspace.id
-        }
-    }
-
-    // ...
-}
 
 resource diag01 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
     name: 'diag01'
