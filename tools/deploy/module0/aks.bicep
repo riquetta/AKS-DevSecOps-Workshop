@@ -56,14 +56,19 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
     aadProfile: {
       managed: true
       enableAzureRBAC: true
-      //additional
+    }    
+    // Inside Cluster Definition; add the following to properties
+
+    addonProfiles: {
       omsAgent: {
         enabled: true
         config: {
             logAnalyticsWorkspaceResourceID: workspace.id
         }
-      }
-    }    
+    }
+
+    // ...
+}
   }
 }
 
