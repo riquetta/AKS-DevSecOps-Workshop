@@ -137,8 +137,7 @@ resource diag01 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
                 days: 0
                 enabled: false
             }
-        },
-        {
+        },{
             category: 'kube-audit'
             enabled: true
             retentionPolicy: {
